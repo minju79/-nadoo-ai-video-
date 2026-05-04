@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { DiscussionEmbed } from 'disqus-react';
-import { X, Send, MessageCircle, MapPin, Phone, FileText, Bot, Sparkles, User, CheckCircle2, Loader2 } from "lucide-react";
+import { X, Send, MapPin, Phone, FileText, Bot, Sparkles, User, Loader2 } from "lucide-react";
 
 // High-quality Infinite Scrolling Video Column
 const VideoColumn = ({ videos, speed, direction = 1 }: { videos: string[], speed: number, direction?: number }) => {
@@ -70,14 +69,6 @@ export default function Home() {
     "/work/nadoo4.mp4",
   ];
 
-  const disqusShortname = "nadoo-ai"; 
-  const disqusConfig = {
-    url: "https://nadoo-ai-video.vercel.app", // Updated to Vercel URL placeholder
-    identifier: "nadoo-ai-video-home-final",
-    title: "NADOO AI VIDEO - Media Hub",
-    language: "ko"
-  };
-
   // Real Submission for Inline Chat (AJAX)
   const handleChatSubmit = async (e: any) => {
     e.preventDefault();
@@ -101,7 +92,7 @@ export default function Home() {
         setTimeout(() => {
           setIsSuccess(false);
           setIsChatActive(false);
-        }, 3000);
+        }, 5000);
       } else {
         alert("죄송합니다. 오류가 발생했습니다. 다시 시도해 주세요.");
       }
@@ -297,7 +288,7 @@ export default function Home() {
                 viewport={{ once: true }}
                 style={{ 
                   maxWidth: "950px", 
-                  margin: "0 auto 12rem", 
+                  margin: "0 auto 4rem", 
                   background: "rgba(204, 255, 0, 0.04)", 
                   padding: "6rem 5rem", 
                   borderRadius: "40px", 
@@ -314,7 +305,7 @@ export default function Home() {
                   <div>
                     <h3 style={{ fontSize: "3rem", fontWeight: "950", letterSpacing: "-0.02em" }}>나두 AI 상담봇</h3>
                     <p style={{ color: "var(--primary)", fontWeight: "800", fontSize: "1.3rem", marginTop: "0.5rem" }}>
-                      Direct Consultation • Integrated with nadoo3379@gmail.com
+                      Direct Consultation • Professional Media Solution
                     </p>
                   </div>
                 </div>
@@ -327,8 +318,8 @@ export default function Home() {
                     fontSize: "1.5rem",
                     lineHeight: "1.6"
                   }}>
-                    안녕하세요! 사용자님께 꼭 맞는 영상 전략을 세워 드릴게요. <br />
-                    아래 내용을 입력해 주시면 상담을 시작합니다. 😊
+                    안녕하세요! 오민주 대표입니다. 사용자님께 꼭 맞는 영상 전략을 세워 드릴게요. <br />
+                    아래 내용을 입력해 주시면 상담을 바로 시작합니다. 😊
                   </div>
 
                   {!isChatActive && !isSuccess ? (
@@ -360,8 +351,8 @@ export default function Home() {
                         border: "1px solid var(--primary)"
                       }}
                     >
-                      <h4 style={{ fontSize: "2rem", fontWeight: "900", color: "var(--primary)", marginBottom: "1rem" }}>신청 완료!</h4>
-                      <p style={{ fontSize: "1.2rem" }}>상담 내용이 오민주 대표님께 전달되었습니다. 곧 연락드릴게요! ✨</p>
+                      <h4 style={{ fontSize: "2rem", fontWeight: "900", color: "var(--primary)", marginBottom: "1rem" }}>상담 신청 완료!</h4>
+                      <p style={{ fontSize: "1.2rem" }}>상담 내용이 대표님께 전달되었습니다. 곧 연락드릴게요! ✨</p>
                     </motion.div>
                   ) : (
                     <motion.form 
@@ -396,43 +387,6 @@ export default function Home() {
                   )}
                 </div>
               </motion.div>
-
-              {/* Customer Feedback Review Wall */}
-              <div style={{ 
-                maxWidth: "1050px", 
-                margin: "0 auto", 
-                textAlign: "left", 
-                paddingTop: "8rem", 
-                borderTop: "2px solid rgba(255,255,255,0.1)" 
-              }}>
-                <div style={{ textAlign: "center", marginBottom: "5rem" }}>
-                  <div style={{ display: "inline-flex", alignItems: "center", gap: "1.5rem", marginBottom: "2rem" }}>
-                    <div style={{ padding: "1.2rem", background: "#fff", borderRadius: "50%", boxShadow: "0 0 30px rgba(255,255,255,0.2)" }}>
-                      <CheckCircle2 size={36} color="#000" />
-                    </div>
-                    <h2 style={{ fontSize: "4rem", fontWeight: "950", letterSpacing: "-0.03em" }}>고객 만족 리얼 리뷰</h2>
-                  </div>
-                  <p style={{ fontSize: "1.5rem", color: "#888", letterSpacing: "0.3em" }}>실시간 고객 소통 & 솔루션 후기</p>
-                </div>
-
-                <div style={{ 
-                  background: "rgba(255, 255, 255, 0.98)", 
-                  padding: "5rem 4rem", 
-                  borderRadius: "50px", 
-                  boxShadow: "0 50px 120px rgba(0,0,0,0.6), 0 0 50px rgba(204, 255, 0, 0.25)",
-                  color: "#000",
-                  minHeight: "450px"
-                }}>
-                  <div style={{ marginBottom: "3rem", borderBottom: "1px solid #eee", paddingBottom: "2rem" }}>
-                    <p style={{ fontSize: "1.3rem", color: "#333", fontWeight: "700", lineHeight: "1.6" }}>
-                      나도 AI 미디어가 만든 영상으로 성과를 내고 있는 <br />
-                      고객님들의 생생한 후기와 자유로운 소통 공간입니다.
-                    </p>
-                  </div>
-                  <DiscussionEmbed shortname={disqusShortname} config={disqusConfig} />
-                </div>
-              </div>
-
             </div>
           </section>
 
