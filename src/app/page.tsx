@@ -240,7 +240,8 @@ export default function Home() {
                   fontSize: "8rem", 
                   lineHeight: "1.1",
                   marginBottom: "3rem",
-                  display: "inline-block"
+                  display: "inline-block",
+                  whiteSpace: "nowrap"
                 }}>
                   "비즈니스의 미래, 영상으로 답하다."
                 </h2>
