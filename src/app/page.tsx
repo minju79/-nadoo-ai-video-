@@ -107,23 +107,23 @@ export default function Home() {
         <main className="container" style={{ paddingTop: "10rem", paddingBottom: "15rem", textAlign: "center" }}>
           <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2 }}>
             <span className="neon-text" style={{ 
-              fontFamily: "var(--font-handwriting)", fontSize: "clamp(2.5rem, 5vw, 4.5rem)", 
-              marginBottom: "2rem", display: "block", transform: "rotate(-3deg)", fontStyle: "italic"
+              fontFamily: "var(--font-handwriting)", fontSize: "clamp(1.5rem, 4vw, 2.8rem)", 
+              marginBottom: "1.5rem", display: "block", transform: "rotate(-3deg)", fontStyle: "italic"
             }}>
               살아 움직이는 비즈니스의 시작
             </span>
             
             <h1 style={{ 
-              fontFamily: "var(--font-serif)", fontSize: "clamp(4rem, 12vw, 10rem)", 
-              fontWeight: "400", lineHeight: 0.9, marginBottom: "4rem", wordBreak: "keep-all"
+              fontFamily: "var(--font-serif)", fontSize: "clamp(2.5rem, 8vw, 5.5rem)", 
+              fontWeight: "400", lineHeight: 1.1, marginBottom: "3rem", wordBreak: "keep-all"
             }}>
               당신의 브랜드를 <br />
               <span className="neon-text" style={{ fontStyle: "italic" }}>혁신적인 영상</span>으로
             </h1>
             
             <p style={{ 
-              fontSize: "clamp(1.2rem, 3vw, 1.8rem)", color: "#999", maxWidth: "800px", 
-              margin: "0 auto 6rem", lineHeight: "1.8", wordBreak: "keep-all", fontWeight: "300"
+              fontSize: "clamp(1rem, 2vw, 1.3rem)", color: "#999", maxWidth: "800px", 
+              margin: "0 auto 5rem", lineHeight: "1.8", wordBreak: "keep-all", fontWeight: "300"
             }}>
               멈춰있는 이미지보다 강력한 <br />
               영상 솔루션으로 시선을 사로잡으세요.
