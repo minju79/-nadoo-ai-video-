@@ -125,8 +125,8 @@ export default function Home() {
               fontSize: "clamp(1.2rem, 3vw, 1.8rem)", color: "#999", maxWidth: "800px", 
               margin: "0 auto 6rem", lineHeight: "1.8", wordBreak: "keep-all", fontWeight: "300"
             }}>
-              멈춰있는 이미지보다 강력한 한 마디. <br />
-              나도 AI 미디어가 제안하는 영상 솔루션으로 시선을 사로잡으세요.
+              멈춰있는 이미지보다 강력한 <br />
+              영상 솔루션으로 시선을 사로잡으세요.
             </p>
             
             <button onClick={() => setIsModalOpen(true)} className="btn-primary" style={{ padding: "1.8rem 5rem", fontSize: "1.3rem" }}>
