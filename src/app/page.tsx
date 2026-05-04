@@ -329,13 +329,35 @@ export default function Home() {
                 </button>
               </motion.div>
 
-              {/* Customer Feedback - Moved Below the Bot Box */}
-              <div style={{ maxWidth: "1000px", margin: "0 auto", textAlign: "left", paddingTop: "6rem", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", marginBottom: "3rem", justifyContent: "center" }}>
-                  <MessageCircle size={36} className="neon-text" />
-                  <h2 style={{ fontSize: "3rem", fontWeight: "900", letterSpacing: "-0.01em" }}>고객 피드백 & 소통</h2>
+              {/* Customer Feedback - Redesigned for High Visibility */}
+              <div style={{ 
+                maxWidth: "1000px", 
+                margin: "0 auto", 
+                textAlign: "left", 
+                paddingTop: "6rem", 
+                borderTop: "1px solid rgba(255,255,255,0.1)" 
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", marginBottom: "4rem", justifyContent: "center" }}>
+                  <div style={{ padding: "1rem", background: "var(--primary)", borderRadius: "50%" }}>
+                    <MessageCircle size={32} color="#000" />
+                  </div>
+                  <h2 style={{ fontSize: "3.5rem", fontWeight: "950", letterSpacing: "-0.02em" }}>고객 리얼 피드백</h2>
                 </div>
-                <div style={{ background: "rgba(255,255,255,0.02)", padding: "3rem", borderRadius: "30px" }}>
+
+                {/* Bright Premium Glass Card for Disqus */}
+                <div style={{ 
+                  background: "rgba(255, 255, 255, 0.95)", 
+                  padding: "4rem", 
+                  borderRadius: "40px", 
+                  boxShadow: "0 30px 100px rgba(0,0,0,0.5), 0 0 40px rgba(204, 255, 0, 0.2)",
+                  color: "#000", /* Dark text for high contrast */
+                  minHeight: "400px"
+                }}>
+                  <div style={{ marginBottom: "2rem", borderBottom: "2px solid #eee", paddingBottom: "1.5rem" }}>
+                    <p style={{ fontSize: "1.2rem", color: "#666", fontWeight: "600" }}>
+                      나도 AI 미디어와 함께한 고객들의 생생한 실시간 소통 공간입니다.
+                    </p>
+                  </div>
                   <DiscussionEmbed shortname={disqusShortname} config={disqusConfig} />
                 </div>
               </div>
