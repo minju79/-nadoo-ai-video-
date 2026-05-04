@@ -1,39 +1,37 @@
-import type { Metadata } from "next";
-import { Inter, Cormorant_Garamond, Nanum_Pen_Script } from "next/font/google";
-import "./globals.css";
+import './globals.css'
+import { Inter, Playfair_Display, Dancing_Script } from 'next/font/google'
 
 const inter = Inter({ 
-  subsets: ["latin"],
+  subsets: ['latin'],
   variable: '--font-inter',
-});
+  display: 'swap',
+})
 
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ['300', '400', '500', '600', '700'],
+const playfair = Playfair_Display({ 
+  subsets: ['latin'],
   variable: '--font-serif',
-});
+  display: 'swap',
+})
 
-const nanumPen = Nanum_Pen_Script({
-  subsets: ["latin"],
-  weight: '400',
+const dancing = Dancing_Script({ 
+  subsets: ['latin'],
   variable: '--font-handwriting',
-});
+  display: 'swap',
+})
 
-export const metadata: Metadata = {
-  title: "나도 AI 미디어 | Premium Video Solutions",
-  description: "살아 움직이는 비즈니스의 시작. 나도 AI 미디어가 당신의 브랜드를 영상으로 혁신합니다.",
-};
+export const metadata = {
+  title: '나도 AI 비디오 - 혁신적인 영상 솔루션',
+  description: 'AI로 만드는 고퀄리티 비즈니스 영상, NADOO AI VIDEO',
+}
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <html lang="ko" className={`${inter.variable} ${cormorant.variable} ${nanumPen.variable}`}>
-      <body>
-        {children}
-      </body>
+    <html lang="ko" className={`${inter.variable} ${playfair.variable} ${dancing.variable}`}>
+      <body className={inter.className}>{children}</body>
     </html>
-  );
+  )
 }
