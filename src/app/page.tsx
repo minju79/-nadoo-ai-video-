@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { DiscussionEmbed } from 'disqus-react';
-import { X, Send, MessageCircle, MapPin, Phone, FileText, Bot, Sparkles } from "lucide-react";
+import { X, Send, MessageCircle, MapPin, Phone, FileText, Bot, Sparkles, User, CheckCircle2 } from "lucide-react";
 
 // High-quality Infinite Scrolling Video Column
 const VideoColumn = ({ videos, speed, direction = 1 }: { videos: string[], speed: number, direction?: number }) => {
@@ -51,6 +51,8 @@ const VideoColumn = ({ videos, speed, direction = 1 }: { videos: string[], speed
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showBotMessage, setShowBotMessage] = useState(false);
+  const [isChatActive, setIsChatActive] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setShowBotMessage(true), 3000);
@@ -67,9 +69,20 @@ export default function Home() {
   const disqusShortname = "nadoo-ai"; 
   const disqusConfig = {
     url: "http://localhost:3003",
-    identifier: "nadoo-ai-video-home-v2",
-    title: "NADOO AI VIDEO - Discussion Hub",
+    identifier: "nadoo-ai-video-home-v3",
+    title: "NADOO AI VIDEO - Ultimate Media Hub",
     language: "ko"
+  };
+
+  const handleChatSubmit = (e: any) => {
+    e.preventDefault();
+    setIsSubmitted(true);
+    // Simulate submission delay
+    setTimeout(() => {
+      setIsSubmitted(false);
+      setIsChatActive(false);
+      alert("상담 신청이 접수되었습니다. 곧 연락드리겠습니다!");
+    }, 2000);
   };
 
   return (
@@ -218,7 +231,7 @@ export default function Home() {
             </div>
           </section>
 
-          {/* Centered Slogan & AI Consultation Bot */}
+          {/* Centered Slogan & AI Consultation Bot (Upgraded for Direct Chat) */}
           <section className="container" style={{ marginTop: "5rem", marginBottom: "15rem", textAlign: "center" }}>
             <div style={{ 
               background: "linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%)", 
@@ -228,20 +241,21 @@ export default function Home() {
               position: "relative" 
             }}>
               
-              {/* Massive Slogan - Perfectly Centered */}
+              {/* Massive Slogan - Fixed Centering with width 100% */}
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                style={{ marginBottom: "10rem" }}
+                style={{ marginBottom: "10rem", width: "100%", textAlign: "center" }}
               >
                 <h2 className="neon-text" style={{ 
                   fontFamily: "var(--font-handwriting)", 
                   fontSize: "8rem", 
                   lineHeight: "1.1",
                   marginBottom: "3rem",
-                  display: "inline-block",
-                  whiteSpace: "nowrap"
+                  display: "block",
+                  whiteSpace: "nowrap",
+                  width: "100%"
                 }}>
                   "비즈니스의 미래, 영상으로 답하다."
                 </h2>
@@ -250,30 +264,31 @@ export default function Home() {
                 </div>
               </motion.div>
 
-              {/* AI Chatbot Card - Centered & Enlarged */}
+              {/* AI Chatbot Card - Upgraded to Inline Consultation (No more "Second Window" feel) */}
               <motion.div 
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 style={{ 
-                  maxWidth: "900px", 
+                  maxWidth: "950px", 
                   margin: "0 auto 12rem", 
-                  background: "rgba(204, 255, 0, 0.03)", 
+                  background: "rgba(204, 255, 0, 0.04)", 
                   padding: "6rem 5rem", 
                   borderRadius: "40px", 
-                  border: "1px solid rgba(204, 255, 0, 0.3)",
-                  boxShadow: "0 0 100px rgba(204, 255, 0, 0.1)",
-                  textAlign: "left"
+                  border: "2px solid rgba(204, 255, 0, 0.3)",
+                  boxShadow: "0 0 120px rgba(204, 255, 0, 0.15)",
+                  textAlign: "left",
+                  position: "relative"
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", gap: "2.5rem", marginBottom: "4rem" }}>
-                  <div style={{ padding: "1.5rem", background: "var(--primary)", borderRadius: "24px", boxShadow: "0 0 30px rgba(204, 255, 0, 0.4)" }}>
-                    <Bot size={50} color="#000" />
+                  <div style={{ padding: "1.5rem", background: "var(--primary)", borderRadius: "24px", boxShadow: "0 0 40px rgba(204, 255, 0, 0.5)" }}>
+                    <Bot size={55} color="#000" />
                   </div>
                   <div>
-                    <h3 style={{ fontSize: "2.8rem", fontWeight: "950", letterSpacing: "-0.02em" }}>나두 AI 상담봇</h3>
-                    <p style={{ color: "var(--primary)", fontWeight: "800", fontSize: "1.2rem", marginTop: "0.5rem" }}>
-                      Online • 24/7 AI Intelligent Assistance
+                    <h3 style={{ fontSize: "3rem", fontWeight: "950", letterSpacing: "-0.02em" }}>나두 AI 상담봇</h3>
+                    <p style={{ color: "var(--primary)", fontWeight: "800", fontSize: "1.3rem", marginTop: "0.5rem" }}>
+                      Direct Consultation • No Popups Needed
                     </p>
                   </div>
                 </div>
@@ -283,79 +298,95 @@ export default function Home() {
                     background: "rgba(255,255,255,0.04)", 
                     padding: "2.5rem", 
                     borderRadius: "0 30px 30px 30px", 
-                    fontSize: "1.4rem",
-                    lineHeight: "1.6",
-                    borderLeft: "2px solid rgba(255,255,255,0.1)"
+                    fontSize: "1.5rem",
+                    lineHeight: "1.6"
                   }}>
-                    안녕하세요! 당신의 비즈니스를 혁신할 영상 솔루션을 찾고 계신가요?
+                    안녕하세요! 홈페이지에서 바로 궁금한 점을 해결해 드립니다. <br />
+                    어떤 영상 솔루션이 필요하신가요?
                   </div>
-                  <AnimatePresence>
-                    {showBotMessage && (
-                      <motion.div 
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        style={{ 
-                          background: "rgba(255,255,255,0.06)", 
-                          padding: "2.5rem", 
-                          borderRadius: "0 30px 30px 30px", 
-                          fontSize: "1.4rem", 
-                          lineHeight: "1.6",
-                          borderLeft: "6px solid var(--primary)",
-                          boxShadow: "20px 20px 60px rgba(0,0,0,0.3)"
-                        }}
-                      >
-                        어떤 종류의 영상 제작에 관심이 있으신가요? <br />
-                        지금 상담을 시작하여 브랜드의 가치를 높여보세요. ✨
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
 
-                <button 
-                  onClick={() => setIsModalOpen(true)}
-                  className="btn-primary" 
-                  style={{ 
-                    width: "100%", 
-                    padding: "2rem", 
-                    fontSize: "1.6rem", 
-                    display: "flex", 
-                    justifyContent: "center", 
-                    alignItems: "center", 
-                    gap: "1.5rem",
-                    fontWeight: "900"
-                  }}
-                >
-                  <Sparkles size={28} /> AI 상담 시작하기
-                </button>
+                  {!isChatActive ? (
+                    <button 
+                      onClick={() => setIsChatActive(true)}
+                      className="btn-primary" 
+                      style={{ 
+                        width: "fit-content", 
+                        padding: "1.5rem 4rem", 
+                        fontSize: "1.4rem", 
+                        display: "flex", 
+                        alignItems: "center", 
+                        gap: "1.2rem",
+                        fontWeight: "900",
+                        marginTop: "1rem"
+                      }}
+                    >
+                      <Sparkles size={24} /> 여기서 바로 상담하기
+                    </button>
+                  ) : (
+                    <motion.form 
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      onSubmit={handleChatSubmit}
+                      style={{ 
+                        background: "rgba(255,255,255,0.06)", 
+                        padding: "3rem", 
+                        borderRadius: "30px", 
+                        display: "flex", 
+                        flexDirection: "column", 
+                        gap: "1.5rem",
+                        border: "1px solid rgba(255,255,255,0.1)"
+                      }}
+                    >
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
+                        <div style={{ position: "relative" }}>
+                          <User size={18} style={{ position: "absolute", left: "1.5rem", top: "50%", transform: "translateY(-50%)", color: "var(--primary)" }} />
+                          <input type="text" placeholder="성함" required style={{ width: "100%", background: "#000", border: "1px solid #333", borderRadius: "15px", padding: "1.2rem 1.2rem 1.2rem 3.5rem", color: "#fff", fontSize: "1.1rem" }} />
+                        </div>
+                        <div style={{ position: "relative" }}>
+                          <Phone size={18} style={{ position: "absolute", left: "1.5rem", top: "50%", transform: "translateY(-50%)", color: "var(--primary)" }} />
+                          <input type="tel" placeholder="연락처" required style={{ width: "100%", background: "#000", border: "1px solid #333", borderRadius: "15px", padding: "1.2rem 1.2rem 1.2rem 3.5rem", color: "#fff", fontSize: "1.1rem" }} />
+                        </div>
+                      </div>
+                      <textarea placeholder="궁금하신 내용을 입력해주세요." rows={3} style={{ width: "100%", background: "#000", border: "1px solid #333", borderRadius: "15px", padding: "1.5rem", color: "#fff", fontSize: "1.1rem", resize: "none" }} />
+                      <button type="submit" disabled={isSubmitted} className="btn-primary" style={{ padding: "1.5rem", fontSize: "1.3rem", fontWeight: "900", display: "flex", justifyContent: "center", alignItems: "center", gap: "1rem" }}>
+                        {isSubmitted ? "전송 중..." : <><Send size={22} /> 상담 신청 전송</>}
+                      </button>
+                    </motion.form>
+                  )}
+                </div>
               </motion.div>
 
-              {/* Customer Feedback - Redesigned for High Visibility */}
+              {/* Customer Feedback - Clearly Differentiated as "Review Wall" */}
               <div style={{ 
-                maxWidth: "1000px", 
+                maxWidth: "1050px", 
                 margin: "0 auto", 
                 textAlign: "left", 
-                paddingTop: "6rem", 
-                borderTop: "1px solid rgba(255,255,255,0.1)" 
+                paddingTop: "8rem", 
+                borderTop: "2px solid rgba(255,255,255,0.1)" 
               }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", marginBottom: "4rem", justifyContent: "center" }}>
-                  <div style={{ padding: "1rem", background: "var(--primary)", borderRadius: "50%" }}>
-                    <MessageCircle size={32} color="#000" />
+                <div style={{ textAlign: "center", marginBottom: "5rem" }}>
+                  <div style={{ display: "inline-flex", alignItems: "center", gap: "1.5rem", marginBottom: "2rem" }}>
+                    <div style={{ padding: "1.2rem", background: "#fff", borderRadius: "50%", boxShadow: "0 0 30px rgba(255,255,255,0.2)" }}>
+                      <CheckCircle2 size={36} color="#000" />
+                    </div>
+                    <h2 style={{ fontSize: "4rem", fontWeight: "950", letterSpacing: "-0.03em" }}>고객 만족 리얼 리뷰</h2>
                   </div>
-                  <h2 style={{ fontSize: "3.5rem", fontWeight: "950", letterSpacing: "-0.02em" }}>고객 리얼 피드백</h2>
+                  <p style={{ fontSize: "1.5rem", color: "#888", letterSpacing: "0.3em" }}>실시간 고객 소통 & 솔루션 후기</p>
                 </div>
 
-                {/* Bright Premium Glass Card for Disqus */}
+                {/* Bright Premium Glass Card - High Visibility */}
                 <div style={{ 
-                  background: "rgba(255, 255, 255, 0.95)", 
-                  padding: "4rem", 
-                  borderRadius: "40px", 
-                  boxShadow: "0 30px 100px rgba(0,0,0,0.5), 0 0 40px rgba(204, 255, 0, 0.2)",
-                  color: "#000", /* Dark text for high contrast */
-                  minHeight: "400px"
+                  background: "rgba(255, 255, 255, 0.98)", 
+                  padding: "5rem 4rem", 
+                  borderRadius: "50px", 
+                  boxShadow: "0 50px 120px rgba(0,0,0,0.6), 0 0 50px rgba(204, 255, 0, 0.25)",
+                  color: "#000",
+                  minHeight: "450px"
                 }}>
-                  <div style={{ marginBottom: "2rem", borderBottom: "2px solid #eee", paddingBottom: "1.5rem" }}>
-                    <p style={{ fontSize: "1.2rem", color: "#666", fontWeight: "600" }}>
-                      나도 AI 미디어와 함께한 고객들의 생생한 실시간 소통 공간입니다.
+                  <div style={{ marginBottom: "3rem", borderBottom: "1px solid #eee", paddingBottom: "2rem" }}>
+                    <p style={{ fontSize: "1.3rem", color: "#333", fontWeight: "700", lineHeight: "1.6" }}>
+                      나도 AI 미디어가 만든 영상으로 성과를 내고 있는 <br />
+                      고객님들의 생생한 후기와 자유로운 소통 공간입니다.
                     </p>
                   </div>
                   <DiscussionEmbed shortname={disqusShortname} config={disqusConfig} />
@@ -367,31 +398,31 @@ export default function Home() {
 
           {/* Refined Footer */}
           <footer style={{ marginTop: "15rem", paddingBottom: "8rem", borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: "10rem" }}>
-            <div style={{ maxWidth: "1200px", margin: "0 auto", display: "grid", gridTemplateColumns: "1.2fr 0.8fr", gap: "8rem" }}>
+            <div style={{ maxWidth: "1250px", margin: "0 auto", display: "grid", gridTemplateColumns: "1.2fr 0.8fr", gap: "8rem" }}>
               {/* Left Side: Business Detailed Info */}
               <div style={{ textAlign: "left" }}>
-                <div className="neon-text" style={{ fontSize: "3.5rem", fontWeight: "950", marginBottom: "5rem", fontFamily: "var(--font-serif)", letterSpacing: "0.1em" }}>
+                <div className="neon-text" style={{ fontSize: "3.8rem", fontWeight: "950", marginBottom: "5rem", fontFamily: "var(--font-serif)", letterSpacing: "0.15em" }}>
                   NADOO_AI
                 </div>
                 
                 <div style={{ display: "flex", flexDirection: "column", gap: "4rem" }}>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6rem" }}>
                     <div>
                       <div style={{ display: "flex", alignItems: "center", gap: "1.2rem", marginBottom: "1.5rem" }}>
-                        <MapPin size={22} className="neon-text" />
-                        <span style={{ color: "#fff", fontWeight: "900", fontSize: "1.2rem", letterSpacing: "0.15em" }}>LOCATION</span>
+                        <MapPin size={24} className="neon-text" />
+                        <span style={{ color: "#fff", fontWeight: "900", fontSize: "1.3rem", letterSpacing: "0.15em" }}>LOCATION</span>
                       </div>
-                      <p style={{ color: "#888", fontSize: "1.2rem", lineHeight: "1.8" }}>
+                      <p style={{ color: "#999", fontSize: "1.25rem", lineHeight: "1.8" }}>
                         광주광역시 서구 상무중앙로 7, 5층<br />
                         (치평동, 상무타워)
                       </p>
                     </div>
                     <div>
                       <div style={{ display: "flex", alignItems: "center", gap: "1.2rem", marginBottom: "1.5rem" }}>
-                        <Phone size={22} className="neon-text" />
-                        <span style={{ color: "#fff", fontWeight: "900", fontSize: "1.2rem", letterSpacing: "0.15em" }}>CONTACT</span>
+                        <Phone size={24} className="neon-text" />
+                        <span style={{ color: "#fff", fontWeight: "900", fontSize: "1.3rem", letterSpacing: "0.15em" }}>CONTACT</span>
                       </div>
-                      <p style={{ color: "#888", fontSize: "1.2rem", lineHeight: "1.8" }}>
+                      <p style={{ color: "#999", fontSize: "1.25rem", lineHeight: "1.8" }}>
                         대표번호: 010-4892-3376<br />
                         이메일: nadoo_ai@naver.com
                       </p>
@@ -400,10 +431,10 @@ export default function Home() {
 
                   <div>
                     <div style={{ display: "flex", alignItems: "center", gap: "1.2rem", marginBottom: "1.5rem" }}>
-                      <FileText size={22} className="neon-text" />
-                      <span style={{ color: "#fff", fontWeight: "900", fontSize: "1.2rem", letterSpacing: "0.15em" }}>BUSINESS INFO</span>
+                      <FileText size={24} className="neon-text" />
+                      <span style={{ color: "#fff", fontWeight: "900", fontSize: "1.3rem", letterSpacing: "0.15em" }}>BUSINESS INFO</span>
                     </div>
-                    <p style={{ color: "#888", fontSize: "1.2rem", lineHeight: "1.8" }}>
+                    <p style={{ color: "#999", fontSize: "1.25rem", lineHeight: "1.8" }}>
                       상호: 나두에이아이 | 대표자: 오민주<br />
                       사업자등록번호: 434-40-01488
                     </p>
@@ -411,9 +442,8 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Right Side: Copyright aligned bottom right */}
               <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end", textAlign: "right" }}>
-                <div style={{ fontSize: "1.1rem", letterSpacing: "0.5em", color: "#333", fontWeight: "800", marginBottom: "1rem" }}>
+                <div style={{ fontSize: "1.2rem", letterSpacing: "0.5em", color: "#333", fontWeight: "900", marginBottom: "1rem" }}>
                   © 2026 NADOO AI VIDEO. ALL RIGHTS RESERVED.
                 </div>
               </div>
@@ -422,7 +452,7 @@ export default function Home() {
         </main>
       </div>
 
-      {/* Consultation Form Modal */}
+      {/* Legacy Modal (Still used for "Get Started" buttons) */}
       <AnimatePresence>
         {isModalOpen && (
           <motion.div 
@@ -435,81 +465,40 @@ export default function Home() {
               left: 0, 
               width: "100%", 
               height: "100%", 
-              background: "rgba(0,5,10,0.95)", 
+              background: "rgba(0,5,10,0.96)", 
               zIndex: 100, 
               display: "flex", 
               justifyContent: "center", 
               alignItems: "center",
-              backdropFilter: "blur(25px)"
+              backdropFilter: "blur(30px)"
             }}
           >
             <motion.div 
-              initial={{ scale: 0.9, y: 40 }}
+              initial={{ scale: 0.9, y: 50 }}
               animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 40 }}
+              exit={{ scale: 0.9, y: 50 }}
               style={{ 
                 background: "#000a1a", 
                 width: "90%", 
-                maxWidth: "650px", 
+                maxWidth: "700px", 
                 borderRadius: "50px", 
-                padding: "5rem 4rem", 
+                padding: "6rem 5rem", 
                 border: "1px solid var(--primary)",
                 position: "relative",
-                boxShadow: "0 0 100px rgba(204, 255, 0, 0.25)"
+                boxShadow: "0 0 120px rgba(204, 255, 0, 0.3)"
               }}
             >
-              <button 
-                onClick={() => setIsModalOpen(false)}
-                style={{ position: "absolute", top: "2.5rem", right: "2.5rem", background: "none", border: "none", color: "#fff", cursor: "pointer" }}
-              >
-                <X size={36} />
-              </button>
-
-              <div style={{ textAlign: "center", marginBottom: "4rem" }}>
-                <span className="neon-text" style={{ fontFamily: "var(--font-handwriting)", fontSize: "3rem" }}>
-                  상담 신청하기
-                </span>
-                <h2 style={{ fontSize: "3rem", fontWeight: "950", marginTop: "1rem", letterSpacing: "-0.02em" }}>Premium AI Solution</h2>
+              <button onClick={() => setIsModalOpen(false)} style={{ position: "absolute", top: "3rem", right: "3rem", background: "none", border: "none", color: "#fff", cursor: "pointer" }}><X size={40} /></button>
+              <div style={{ textAlign: "center", marginBottom: "5rem" }}>
+                <span className="neon-text" style={{ fontFamily: "var(--font-handwriting)", fontSize: "3.5rem" }}>상담 신청하기</span>
+                <h2 style={{ fontSize: "3.5rem", fontWeight: "950", marginTop: "1rem" }}>Premium AI Solution</h2>
               </div>
-
               <form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST" style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
-                <input 
-                  type="text" 
-                  name="name" 
-                  placeholder="성함" 
-                  required 
-                  style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "20px", padding: "1.5rem 1.8rem", color: "#fff", fontSize: "1.2rem" }} 
-                />
-                <input 
-                  type="tel" 
-                  name="phone" 
-                  placeholder="연락처" 
-                  required 
-                  style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "20px", padding: "1.5rem 1.8rem", color: "#fff", fontSize: "1.2rem" }} 
-                />
-                <select 
-                  name="interest" 
-                  required 
-                  style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "20px", padding: "1.5rem 1.8rem", color: "#fff", fontSize: "1.2rem" }}
-                >
-                  <option value="">관심 분야 선택</option>
-                  <option value="shorts">고효율 쇼츠 제작</option>
-                  <option value="storytelling">브랜드 스토리텔링</option>
-                  <option value="automation">자동화 영상 시스템</option>
-                </select>
-                <textarea 
-                  name="message" 
-                  placeholder="추가 요청 사항 (선택)" 
-                  rows={4} 
-                  style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "20px", padding: "1.5rem 1.8rem", color: "#fff", fontSize: "1.2rem", resize: "none" }} 
-                />
-                <button 
-                  type="submit" 
-                  className="btn-primary" 
-                  style={{ marginTop: "1rem", padding: "1.8rem", fontSize: "1.4rem", display: "flex", justifyContent: "center", alignItems: "center", gap: "1.2rem", fontWeight: "900" }}
-                >
-                  <Send size={24} /> 신청 완료하기
-                </button>
+                <input type="text" name="name" placeholder="성함" required style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: "20px", padding: "1.8rem 2rem", color: "#fff", fontSize: "1.3rem" }} />
+                <input type="tel" name="phone" placeholder="연락처" required style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: "20px", padding: "1.8rem 2rem", color: "#fff", fontSize: "1.3rem" }} />
+                <select name="interest" required style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: "20px", padding: "1.8rem 2rem", color: "#fff", fontSize: "1.3rem" }}><option value="">관심 분야 선택</option><option value="shorts">고효율 쇼츠 제작</option><option value="storytelling">브랜드 스토리텔링</option><option value="automation">자동화 영상 시스템</option></select>
+                <textarea name="message" placeholder="추가 요청 사항 (선택)" rows={4} style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: "20px", padding: "1.8rem 2rem", color: "#fff", fontSize: "1.3rem", resize: "none" }} />
+                <button type="submit" className="btn-primary" style={{ marginTop: "1rem", padding: "2rem", fontSize: "1.5rem", fontWeight: "900", display: "flex", justifyContent: "center", alignItems: "center", gap: "1.2rem" }}><Send size={28} /> 신청 완료하기</button>
               </form>
             </motion.div>
           </motion.div>
