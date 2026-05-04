@@ -146,28 +146,19 @@ body {
     height: 70vh;
   }
 
-  .input-group {
-    grid-template-columns: 1fr;
+  .mobile-input-fix {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 1rem;
+    color: #fff;
+    font-size: 1rem;
+    font-family: inherit;
   }
 
-  .chat-input, .modal-input {
-    width: 100%;
-    background: #000;
-    border: 1px solid #333;
-    border-radius: 15px;
-    padding: 1.2rem;
-    color: #fff;
-    font-size: 1.1rem;
-  }
-
-  .chat-textarea, .modal-textarea {
-    width: 100%;
-    background: #000;
-    border: 1px solid #333;
-    border-radius: 15px;
-    padding: 1.2rem;
-    color: #fff;
-    font-size: 1.1rem;
-    resize: none;
+  .mobile-input-fix:focus {
+    outline: none;
+    border-color: var(--primary);
   }
 }
