@@ -17,7 +17,12 @@ const VideoColumn = ({ videos, speed, direction = 1 }: { videos: string[], speed
           duration: speed, 
           ease: "linear" 
         }}
-        style={{ display: "flex", flexDirection: "column", gap: "4rem" }}
+        style={{ 
+          display: "flex", 
+          flexDirection: "column", 
+          gap: "4rem",
+          willChange: "transform" /* Force GPU acceleration */
+        }}
       >
         {[...videos, ...videos, ...videos].map((src, i) => (
           <div key={i} style={{ 
@@ -30,7 +35,8 @@ const VideoColumn = ({ videos, speed, direction = 1 }: { videos: string[], speed
             backgroundColor: "#000",
             border: "1px solid rgba(255,255,255,0.1)",
             opacity: 0.7,
-            filter: "brightness(1.1) contrast(1.1)" 
+            filter: "brightness(1.1) contrast(1.1)",
+            transform: "translateZ(0)" /* Force GPU acceleration */
           }}>
             <video 
               src={src} 
@@ -38,6 +44,7 @@ const VideoColumn = ({ videos, speed, direction = 1 }: { videos: string[], speed
               muted 
               loop 
               playsInline 
+              preload="auto"
               style={{ width: "100%", height: "100%", objectFit: "cover" }} 
             />
           </div>
@@ -263,16 +270,25 @@ export default function Home() {
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                style={{ marginBottom: "10rem", width: "100%", textAlign: "center" }}
+                style={{ 
+                  marginBottom: "10rem", 
+                  width: "100%", 
+                  display: "flex", 
+                  flexDirection: "column", 
+                  alignItems: "center",
+                  justifyContent: "center"
+                }}
               >
                 <h2 className="neon-text" style={{ 
                   fontFamily: "var(--font-handwriting)", 
-                  fontSize: "8rem", 
-                  lineHeight: "1.1",
+                  fontSize: "clamp(4rem, 8vw, 8rem)", 
+                  lineHeight: "1.2",
                   marginBottom: "3rem",
-                  display: "block",
+                  textAlign: "center",
                   whiteSpace: "nowrap",
-                  width: "100%"
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center"
                 }}>
                   "비즈니스의 미래, 영상으로 답하다."
                 </h2>
