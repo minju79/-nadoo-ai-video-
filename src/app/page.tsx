@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { DiscussionEmbed } from 'disqus-react';
-import { X, Send, MessageCircle, MapPin, Phone, FileText, Bot, Sparkles, User, CheckCircle2 } from "lucide-react";
+import { X, Send, MessageCircle, MapPin, Phone, FileText, Bot, Sparkles, User, CheckCircle2, Loader2 } from "lucide-react";
 
 // High-quality Infinite Scrolling Video Column
 const VideoColumn = ({ videos, speed, direction = 1 }: { videos: string[], speed: number, direction?: number }) => {
@@ -52,7 +52,11 @@ export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showBotMessage, setShowBotMessage] = useState(false);
   const [isChatActive, setIsChatActive] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  // Formspree Endpoint
+  const FORMSPREE_URL = "https://formspree.io/f/xzdoearv";
 
   useEffect(() => {
     const timer = setTimeout(() => setShowBotMessage(true), 3000);
@@ -68,21 +72,44 @@ export default function Home() {
 
   const disqusShortname = "nadoo-ai"; 
   const disqusConfig = {
-    url: "http://localhost:3003",
-    identifier: "nadoo-ai-video-home-v3",
-    title: "NADOO AI VIDEO - Ultimate Media Hub",
+    url: "https://nadoo-ai-video.vercel.app", // Updated to Vercel URL placeholder
+    identifier: "nadoo-ai-video-home-final",
+    title: "NADOO AI VIDEO - Media Hub",
     language: "ko"
   };
 
-  const handleChatSubmit = (e: any) => {
+  // Real Submission for Inline Chat (AJAX)
+  const handleChatSubmit = async (e: any) => {
     e.preventDefault();
-    setIsSubmitted(true);
-    // Simulate submission delay
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setIsChatActive(false);
-      alert("상담 신청이 접수되었습니다. 곧 연락드리겠습니다!");
-    }, 2000);
+    setIsSubmitting(true);
+    
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const response = await fetch(FORMSPREE_URL, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        setIsSuccess(true);
+        setTimeout(() => {
+          setIsSuccess(false);
+          setIsChatActive(false);
+        }, 3000);
+      } else {
+        alert("죄송합니다. 오류가 발생했습니다. 다시 시도해 주세요.");
+      }
+    } catch (error) {
+      alert("서버 연결에 실패했습니다.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -231,7 +258,7 @@ export default function Home() {
             </div>
           </section>
 
-          {/* Centered Slogan & AI Consultation Bot (Upgraded for Direct Chat) */}
+          {/* Centered Slogan & AI Consultation Bot */}
           <section className="container" style={{ marginTop: "5rem", marginBottom: "15rem", textAlign: "center" }}>
             <div style={{ 
               background: "linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%)", 
@@ -241,7 +268,6 @@ export default function Home() {
               position: "relative" 
             }}>
               
-              {/* Massive Slogan - Fixed Centering with width 100% */}
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -264,7 +290,7 @@ export default function Home() {
                 </div>
               </motion.div>
 
-              {/* AI Chatbot Card - Upgraded to Inline Consultation (No more "Second Window" feel) */}
+              {/* AI Chatbot Card - Connected to Real Formspree */}
               <motion.div 
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -288,7 +314,7 @@ export default function Home() {
                   <div>
                     <h3 style={{ fontSize: "3rem", fontWeight: "950", letterSpacing: "-0.02em" }}>나두 AI 상담봇</h3>
                     <p style={{ color: "var(--primary)", fontWeight: "800", fontSize: "1.3rem", marginTop: "0.5rem" }}>
-                      Direct Consultation • No Popups Needed
+                      Direct Consultation • Integrated with nadoo3379@gmail.com
                     </p>
                   </div>
                 </div>
@@ -301,11 +327,11 @@ export default function Home() {
                     fontSize: "1.5rem",
                     lineHeight: "1.6"
                   }}>
-                    안녕하세요! 홈페이지에서 바로 궁금한 점을 해결해 드립니다. <br />
-                    어떤 영상 솔루션이 필요하신가요?
+                    안녕하세요! 사용자님께 꼭 맞는 영상 전략을 세워 드릴게요. <br />
+                    아래 내용을 입력해 주시면 상담을 시작합니다. 😊
                   </div>
 
-                  {!isChatActive ? (
+                  {!isChatActive && !isSuccess ? (
                     <button 
                       onClick={() => setIsChatActive(true)}
                       className="btn-primary" 
@@ -322,6 +348,21 @@ export default function Home() {
                     >
                       <Sparkles size={24} /> 여기서 바로 상담하기
                     </button>
+                  ) : isSuccess ? (
+                    <motion.div 
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      style={{ 
+                        background: "rgba(204, 255, 0, 0.1)", 
+                        padding: "3rem", 
+                        borderRadius: "30px", 
+                        textAlign: "center",
+                        border: "1px solid var(--primary)"
+                      }}
+                    >
+                      <h4 style={{ fontSize: "2rem", fontWeight: "900", color: "var(--primary)", marginBottom: "1rem" }}>신청 완료!</h4>
+                      <p style={{ fontSize: "1.2rem" }}>상담 내용이 오민주 대표님께 전달되었습니다. 곧 연락드릴게요! ✨</p>
+                    </motion.div>
                   ) : (
                     <motion.form 
                       initial={{ opacity: 0, y: 20 }}
@@ -340,23 +381,23 @@ export default function Home() {
                       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
                         <div style={{ position: "relative" }}>
                           <User size={18} style={{ position: "absolute", left: "1.5rem", top: "50%", transform: "translateY(-50%)", color: "var(--primary)" }} />
-                          <input type="text" placeholder="성함" required style={{ width: "100%", background: "#000", border: "1px solid #333", borderRadius: "15px", padding: "1.2rem 1.2rem 1.2rem 3.5rem", color: "#fff", fontSize: "1.1rem" }} />
+                          <input name="name" type="text" placeholder="성함" required style={{ width: "100%", background: "#000", border: "1px solid #333", borderRadius: "15px", padding: "1.2rem 1.2rem 1.2rem 3.5rem", color: "#fff", fontSize: "1.1rem" }} />
                         </div>
                         <div style={{ position: "relative" }}>
                           <Phone size={18} style={{ position: "absolute", left: "1.5rem", top: "50%", transform: "translateY(-50%)", color: "var(--primary)" }} />
-                          <input type="tel" placeholder="연락처" required style={{ width: "100%", background: "#000", border: "1px solid #333", borderRadius: "15px", padding: "1.2rem 1.2rem 1.2rem 3.5rem", color: "#fff", fontSize: "1.1rem" }} />
+                          <input name="phone" type="tel" placeholder="연락처" required style={{ width: "100%", background: "#000", border: "1px solid #333", borderRadius: "15px", padding: "1.2rem 1.2rem 1.2rem 3.5rem", color: "#fff", fontSize: "1.1rem" }} />
                         </div>
                       </div>
-                      <textarea placeholder="궁금하신 내용을 입력해주세요." rows={3} style={{ width: "100%", background: "#000", border: "1px solid #333", borderRadius: "15px", padding: "1.5rem", color: "#fff", fontSize: "1.1rem", resize: "none" }} />
-                      <button type="submit" disabled={isSubmitted} className="btn-primary" style={{ padding: "1.5rem", fontSize: "1.3rem", fontWeight: "900", display: "flex", justifyContent: "center", alignItems: "center", gap: "1rem" }}>
-                        {isSubmitted ? "전송 중..." : <><Send size={22} /> 상담 신청 전송</>}
+                      <textarea name="message" placeholder="궁금하신 내용을 입력해주세요." rows={3} required style={{ width: "100%", background: "#000", border: "1px solid #333", borderRadius: "15px", padding: "1.5rem", color: "#fff", fontSize: "1.1rem", resize: "none" }} />
+                      <button type="submit" disabled={isSubmitting} className="btn-primary" style={{ padding: "1.5rem", fontSize: "1.3rem", fontWeight: "900", display: "flex", justifyContent: "center", alignItems: "center", gap: "1rem" }}>
+                        {isSubmitting ? <><Loader2 size={22} className="animate-spin" /> 전송 중...</> : <><Send size={22} /> 상담 신청 전송</>}
                       </button>
                     </motion.form>
                   )}
                 </div>
               </motion.div>
 
-              {/* Customer Feedback - Clearly Differentiated as "Review Wall" */}
+              {/* Customer Feedback Review Wall */}
               <div style={{ 
                 maxWidth: "1050px", 
                 margin: "0 auto", 
@@ -374,7 +415,6 @@ export default function Home() {
                   <p style={{ fontSize: "1.5rem", color: "#888", letterSpacing: "0.3em" }}>실시간 고객 소통 & 솔루션 후기</p>
                 </div>
 
-                {/* Bright Premium Glass Card - High Visibility */}
                 <div style={{ 
                   background: "rgba(255, 255, 255, 0.98)", 
                   padding: "5rem 4rem", 
@@ -399,7 +439,6 @@ export default function Home() {
           {/* Refined Footer */}
           <footer style={{ marginTop: "15rem", paddingBottom: "8rem", borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: "10rem" }}>
             <div style={{ maxWidth: "1250px", margin: "0 auto", display: "grid", gridTemplateColumns: "1.2fr 0.8fr", gap: "8rem" }}>
-              {/* Left Side: Business Detailed Info */}
               <div style={{ textAlign: "left" }}>
                 <div className="neon-text" style={{ fontSize: "3.8rem", fontWeight: "950", marginBottom: "5rem", fontFamily: "var(--font-serif)", letterSpacing: "0.15em" }}>
                   NADOO_AI
@@ -452,7 +491,7 @@ export default function Home() {
         </main>
       </div>
 
-      {/* Legacy Modal (Still used for "Get Started" buttons) */}
+      {/* Modal Consultation Form */}
       <AnimatePresence>
         {isModalOpen && (
           <motion.div 
@@ -493,7 +532,7 @@ export default function Home() {
                 <span className="neon-text" style={{ fontFamily: "var(--font-handwriting)", fontSize: "3.5rem" }}>상담 신청하기</span>
                 <h2 style={{ fontSize: "3.5rem", fontWeight: "950", marginTop: "1rem" }}>Premium AI Solution</h2>
               </div>
-              <form action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST" style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+              <form action={FORMSPREE_URL} method="POST" style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
                 <input type="text" name="name" placeholder="성함" required style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: "20px", padding: "1.8rem 2rem", color: "#fff", fontSize: "1.3rem" }} />
                 <input type="tel" name="phone" placeholder="연락처" required style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: "20px", padding: "1.8rem 2rem", color: "#fff", fontSize: "1.3rem" }} />
                 <select name="interest" required style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: "20px", padding: "1.8rem 2rem", color: "#fff", fontSize: "1.3rem" }}><option value="">관심 분야 선택</option><option value="shorts">고효율 쇼츠 제작</option><option value="storytelling">브랜드 스토리텔링</option><option value="automation">자동화 영상 시스템</option></select>
