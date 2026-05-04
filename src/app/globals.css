@@ -1,67 +1,173 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Dancing+Script:wght@400..700&family=Inter:wght@100..900&display=swap');
+
 :root {
-  --background: #000a1a;
-  --foreground: #ffffff;
-  --primary: #ccff00; /* Neon Lime Green */
-  --secondary: #888888;
-  --accent: #ccff00;
+  --primary: #ccff00; /* Electric Lime */
+  --secondary: #050505; /* True Deep Black */
+  --accent: #ff00ff;
+  --font-serif: 'Playfair Display', serif;
+  --font-handwriting: 'Dancing Script', cursive;
 }
 
 * {
-  box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-inter), system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--secondary);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.5;
+  overflow-x: hidden;
 }
 
 .container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 4rem;
-}
-
-.btn-primary {
-  background: var(--primary);
-  color: #000; /* Black text for neon background */
-  border: none;
-  border-radius: 999px;
-  padding: 1.2rem 3rem;
-  font-weight: 900;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 1.1rem;
-  box-shadow: 0 0 20px rgba(204, 255, 0, 0.3);
-}
-
-.btn-primary:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 40px rgba(204, 255, 0, 0.6);
-  filter: brightness(1.1);
-}
-
-.video-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 24px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.video-card:hover {
-  border-color: var(--primary);
-  transform: translateY(-10px);
-  box-shadow: 0 10px 40px rgba(204, 255, 0, 0.1);
+  padding: 0 2rem;
 }
 
 /* Neon Text Effect */
 .neon-text {
   color: var(--primary);
   text-shadow: 0 0 15px rgba(204, 255, 0, 0.9), 0 0 35px rgba(204, 255, 0, 0.4);
+}
+
+/* Buttons */
+.btn-primary {
+  background: var(--primary);
+  color: #000;
+  border: none;
+  border-radius: 100px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 40px rgba(204, 255, 0, 0.6);
+}
+
+/* Video Cards */
+.video-card {
+  border-radius: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  transition: all 0.5s ease;
+}
+
+/* --- Responsive Utilities --- */
+
+/* Grid Layouts */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+}
+
+.input-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+
+/* Footer Layout */
+.footer-content {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 6rem;
+}
+
+.footer-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  margin-top: 2rem;
+}
+
+/* Video Column Widths */
+.video-column {
+  width: 420px;
+}
+
+.video-item {
+  height: 580px;
+}
+
+/* Mobile/Desktop Toggles */
+.mobile-only { display: none; }
+.desktop-only { display: flex; }
+
+/* MEDIA QUERIES */
+
+/* Tablet & Mobile (under 1024px) */
+@media (max-width: 1024px) {
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+    text-align: center;
+  }
+
+  .footer-info {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .footer-copyright {
+    text-align: center;
+    margin-top: 4rem;
+  }
+}
+
+/* Mobile (under 768px) */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+
+  .desktop-only { display: none; }
+  .mobile-only { display: block; }
+
+  .mobile-hidden { display: none; }
+
+  .video-column {
+    width: 100vw;
+  }
+
+  .video-item {
+    height: 70vh;
+  }
+
+  .input-group {
+    grid-template-columns: 1fr;
+  }
+
+  .chat-input, .modal-input {
+    width: 100%;
+    background: #000;
+    border: 1px solid #333;
+    border-radius: 15px;
+    padding: 1.2rem;
+    color: #fff;
+    font-size: 1.1rem;
+  }
+
+  .chat-textarea, .modal-textarea {
+    width: 100%;
+    background: #000;
+    border: 1px solid #333;
+    border-radius: 15px;
+    padding: 1.2rem;
+    color: #fff;
+    font-size: 1.1rem;
+    resize: none;
+  }
 }
